@@ -1,0 +1,116 @@
+@startuml
+class Welt {
+    + Welt_ID : INT <<PK>> AUTO_INCREMENT
+    --
+    Name : VARCHAR(50)
+    Schwierigkeitsgrad : INT
+    Beschreibung : TEXT
+    Umgebungstyp : VARCHAR(20)
+    Max_Level : INT
+}
+class Kaempfe {
+    Kampf_ID : INT <<PK>> AUTO_INCREMENT
+    Charakter_ID : INT <<FK>>
+    Monster_ID : INT <<FK>>
+    Charakter_Waffe_ID : INT  <<FK>>
+    Charakter_Ruestung_ID : INT  <<FK>>
+    __
+    Level : INT
+    Startzeit : TIMESTAMP
+    Endzeit : TIMESTAMP
+    Ausgang : VARCHAR(50)
+}
+
+class Kampf_Details {
+    Detail_ID : INT <<PK>> AUTO_INCREMENT
+    Kampf_ID : INT <<FK>>
+    __
+    Zugnummer : INT
+    Charakter_Schaden : INT
+    Monster_Schaden : INT
+    Charakter_HP : INT
+    Monster_HP : INT
+    Aktion : VARCHAR(50)  -- z.B. "Angriff", "Heilung"
+    Zeitpunkt : TIMESTAMP  -- Zeitpunkt des jeweiligen Zuges im Kampf
+    Aktion_Details : VARCHAR(100)  -- Spezifische Informationen über die Aktion
+}
+
+class Ruestung {
+    Ruestung_ID: INT <<PK>> AUTO_INCREMENT
+    __
+    Ruestungsteil: VARCHAR(50)
+    Klasse: INT
+    Verteidigung: INT
+    Infoblatt: TEXT
+    Seltenheit: VARCHAR(20)
+}
+
+
+class Charaktere {
+    Charakter_ID INT <<PK>> AUTO_INCREMENT
+    Waffe_ID INT <<FK>>
+    Komplett_Ruestung_ID INT <<FK>>
+    Brust_Ruestung_ID INT <<FK>>
+    --
+    Name VARCHAR(50)
+    Klasse VARCHAR(20)
+    Max_HP INT
+    Aktuelle_HP INT
+    Staerke INT
+    Level INT
+    Erfahrungspunkte INT
+    Erstellungsdatum TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+}
+class WeltItems {
+    + Item_ID: INT <<PK>> AUTO_INCREMENT
+    --
+    Name: VARCHAR(50)
+    Stufe: INT
+    Staerke_Bonus: INT
+    Heilwert: INT
+    Dauer_in_Zuegen: INT
+    Beschreibung: TEXT
+}
+class Inventar {
+    Inventar_ID INT <<PK>> AUTO_INCREMENT
+    Charakter_ID INT,
+    Item_ID INT,
+    Menge INT DEFAULT 1,
+}
+class Waffen {
+    * Waffe_ID : INT <<PK>> AUTO_INCREMENT
+    --
+    Charaktertyp : VARCHAR(20)
+    Waffe_Name : VARCHAR(50)
+    Stufe : INT
+    Schaden : INT
+    Besonderer_Effekt : VARCHAR(100)
+}
+class Monster {
+Monster_ID INT PRIMARY KEY AUTO_INCREMENT
+Welt_ID INT <<FK>>
+__
+    Name VARCHAR(50) NOT NULL,
+    Monster_Typ VARCHAR(50),
+    Stufe INT NOT NULL,
+    Max_HP INT NOT NULL,
+    Aktuelle_HP INT NOT NULL,
+    Staerke INT NOT NULL,
+    Attacke VARCHAR(100) NOT NULL,
+    Schadensbereich VARCHAR(20),
+    Beschreibung TEXT,
+    Erstellungsdatum TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    }
+
+
+
+
+
+Charaktere "1" -- "N" Kaempfe : hat
+Kaempfe "1" -- "1" Welt : findet statt in
+Kaempfe "1" -- "N" Kampf_Details : besteht aus
+Charaktere "1" -- "N" Ruestung : besitzt
+Charaktere "1" -- "N" WeltItems : hat im Inventar
+Charaktere "1" -- "1" Waffen : benutzt
+Inventar "n" -- "m" WeltItems : hat im Inventar
+@enduml
