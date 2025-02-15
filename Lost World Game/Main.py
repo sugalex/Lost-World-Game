@@ -1,24 +1,18 @@
 from Spieler import Spieler
+from Welt_1_großstadt import Welt_1_großstadt
 
-class World:
+class LevelManager:
 
     def __init__(self):
-        self.spieler = Spieler()
-        self.schritte = [None] * self.spieler.max_schritte
+        self.spieler = Spieler()  # Initialisiert den Spieler
+        self.welt_1 = Welt_1_großstadt()  # Erstes Level laden
 
-    def main(self):
-        while True:
-            eingabe = input("Drücke 'w' für einen Schritt nach vorne: ")
-            if eingabe.lower() == "w":
-                self.spieler.vorwaerts_gehen()
-                if self.spieler.position >= self.spieler.max_schritte -1:
-                    break
-            else:
-                print("Ungültige Eingabe. Drücke 'w'")
-
-
-
+    def start(self):
+        """Startet das Spiel."""
+        print("\nWillkommen in Lost World\n")
+        print(input("Wähle deinen Namen: "))
+        self.spieler.spiel_starten()  # Ruft die Spiellogik in Spieler.py auf
 
 if __name__ == "__main__":
-    welt = World()
-    welt.main()
+    level_manager = LevelManager()
+    level_manager.start()
