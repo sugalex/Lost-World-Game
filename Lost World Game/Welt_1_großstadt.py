@@ -33,12 +33,6 @@ class Welt_1_großstadt:
         print("\nWer weiß, was diese Nacht noch bringt...? Fortsetzung folgt!\n")
 
 
-    def spiel_starten(self):
-        """Hauptspiel-Schleife, die das Spiel steuert."""
-        while True:
-            if self.schritte_nach_wurf == 0:
-                input("Drücke = F =, um zu würfeln: ")
-                self.wuerfeln()
 
             eingabe = input("\nDrücke: \n= W = für vorwärts, "
                             "\n'Q' um zu beenden: ").lower()
